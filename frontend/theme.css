@@ -1,0 +1,328 @@
+/*
+  Palette for Find My Class.
+  Loaded after index.css, so it replaces the old emerald and slate colors
+  for the whole app, including the map and admin pages.
+  Colors are stored as space separated RGB values so Tailwind can add opacity.
+*/
+
+:root {
+  --c-page: 246 247 249;
+  --c-surface: 255 255 255;
+  --c-sunken: 237 240 244;
+  --c-line: 224 228 234;
+  --c-ink: 17 24 39;
+  --c-muted: 90 99 112;
+  --c-brand: 37 99 235;
+  --c-brand-strong: 29 78 216;
+  --c-brand-soft: 219 234 254;
+  --c-brand-on: 255 255 255;
+  /* Same hues the map uses for the route line and the corridor guides */
+  --c-route: 37 99 235;
+  --c-corridor: 234 88 12;
+  --color-danger: #dc2626;
+}
+
+.dark {
+  --c-page: 17 19 22;
+  --c-surface: 24 27 31;
+  --c-sunken: 32 36 41;
+  --c-line: 48 53 60;
+  --c-ink: 235 238 242;
+  --c-muted: 150 158 168;
+  --c-brand: 96 165 250;
+  --c-brand-strong: 147 197 253;
+  --c-brand-soft: 24 37 66;
+  --c-brand-on: 8 17 34;
+  --c-route: 96 165 250;
+  --c-corridor: 251 146 60;
+  --color-danger: #f87171;
+}
+
+/* Variables used by index.css, the map page and the admin pages */
+:root,
+.dark {
+  --color-bg: rgb(var(--c-page));
+  --color-surface: rgb(var(--c-surface));
+  --color-surface-hover: rgb(var(--c-sunken));
+  --color-surface-muted: rgb(var(--c-sunken));
+  --color-border: rgb(var(--c-line));
+  --color-primary: rgb(var(--c-brand));
+  --color-primary-hover: rgb(var(--c-brand-strong));
+  --color-text: rgb(var(--c-ink));
+  --color-text-muted: rgb(var(--c-muted));
+  --color-success: rgb(var(--c-brand));
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Buttons and inputs from index.css */
+.btn-primary {
+  color: rgb(var(--c-brand-on));
+}
+
+.btn-danger {
+  color: #fff;
+}
+
+.dark .btn-danger {
+  color: #1a0707;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 3px rgb(var(--c-brand) / 0.25);
+}
+
+.dark .input:focus {
+  box-shadow: 0 0 0 3px rgb(var(--c-brand) / 0.3);
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--c-brand));
+  outline-offset: 2px;
+}
+
+/* Links in the header, footer and home page change color on hover, not underline */
+.site-chrome a:hover,
+.home-page a:hover {
+  text-decoration: none;
+}
+
+/* The home page draws its own sections edge to edge */
+.main:has(> .home-page) {
+  padding: 0;
+}
+
+/* Map page panels that were written for a dark background only */
+.campus-image-map {
+  background: rgb(var(--c-sunken));
+}
+
+.map-selector {
+  background: rgb(var(--c-surface) / 0.92);
+}
+
+.map-selector-input {
+  background: rgb(var(--c-surface));
+}
+
+.map-search-result-btn {
+  background: rgb(var(--c-surface));
+}
+
+.map-search-result-btn:hover {
+  background: rgb(var(--c-sunken));
+}
+
+.map-search-result-btn.active {
+  border-color: rgb(var(--c-corridor));
+  background: rgb(var(--c-corridor) / 0.14);
+}
+
+.map-corridor-health-result {
+  background: rgb(var(--c-sunken));
+}
+
+.map-corridor-health-ok {
+  color: #047857;
+}
+
+.map-corridor-health-bad {
+  color: #b91c1c;
+}
+
+.dark .map-corridor-health-ok {
+  color: #6ee7b7;
+}
+
+.dark .map-corridor-health-bad {
+  color: #fca5a5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Slow idle float for the 3D floor stack on the home page. Transform only, so it stays cheap. */
+@keyframes fmc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.fmc-float {
+  animation: fmc-float 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fmc-float {
+    animation: none !important;
+  }
+}
+
+/* Dark grey map canvas and room names */
+.campus-image-map {
+  background: #181c20;
+}
+
+/* White paper becomes dark grey, dark lines become soft light grey */
+.campus-image-map.invert-plan .leaflet-image-layer {
+  filter: invert(0.84) hue-rotate(180deg);
+}
+
+.leaflet-tooltip.room-label {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  color: #fff;
+  font: 600 11px/1.15 Inter, system-ui, sans-serif;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.75);
+  pointer-events: none;
+}
+
+.leaflet-tooltip.room-label::before {
+  display: none;
+}
+
+/* Dark text on the light room colors */
+.leaflet-tooltip.room-label--on-stairs,
+.leaflet-tooltip.room-label--on-washroom,
+.leaflet-tooltip.room-label--on-cafe,
+.leaflet-tooltip.room-label--on-light {
+  color: #1f2937;
+  text-shadow: none;
+}
+
+/* Map colors list in the left panel */
+.map-legend-title {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.map-legend {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.map-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.92rem;
+  color: var(--color-text);
+}
+
+.map-legend-dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex: none;
+  border-radius: 50%;
+}
+
+/* Admin tools stay folded away until an admin opens them */
+.map-admin-details {
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.75rem;
+}
+
+.map-admin-details > summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.map-admin-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.map-admin-details > summary::before {
+  content: '+';
+  display: inline-block;
+  width: 1.1rem;
+  color: var(--color-text-muted);
+}
+
+.map-admin-details[open] > summary::before {
+  content: '-';
+}
+
+/* 3D campus model viewer */
+.campus-3d-viewer {
+  position: relative;
+  display: flex;
+  min-height: min(70vh, 760px);
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: linear-gradient(145deg, #eff6ff 0%, #dbeafe 48%, #bfdbfe 100%);
+}
+
+.dark .campus-3d-viewer {
+  background: linear-gradient(145deg, #0f1a2e 0%, #14264a 52%, #1b3a6b 100%);
+}
+
+.campus-3d-viewer model-viewer {
+  display: block;
+  width: 100%;
+  min-height: min(70vh, 760px);
+  flex: 1;
+  --poster-color: transparent;
+}
+
+.campus-3d-loading {
+  display: grid;
+  min-height: min(70vh, 760px);
+  place-items: center;
+  color: rgb(var(--c-brand-strong));
+  font-weight: 700;
+}
+
+.campus-3d-caption {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.75rem;
+  left: 1rem;
+  margin: 0;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgb(var(--c-brand) / 0.2);
+  border-radius: 999px;
+  background: rgb(var(--c-surface) / 0.82);
+  color: rgb(var(--c-brand-strong));
+  font-size: 0.78rem;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
